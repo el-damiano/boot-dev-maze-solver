@@ -25,8 +25,8 @@ def main():
     Cell(win, 260, 540, 160, 440, False, True, True, True).draw()
 
     # two connected cells
-    cell1 = Cell(win, 10, 100, 200, 300, True, False, True, True)
-    cell2 = Cell(win, 100, 200, 200, 300, True, True, True, False)
+    cell1 = Cell(win, 10, 100, 200, 300, True, True, True, True)
+    cell2 = Cell(win, 105, 200, 200, 300, True, True, True, True)
     cell1.draw()
     cell2.draw()
     cell1.draw_move(cell2)
