@@ -10,6 +10,7 @@ def main():
     win.draw_line(Line(Point(00, 10), Point(800, 610)), "black")
     win.draw_line(Line(Point(00, -10), Point(800, 590)), "black")
 
+
     # red squares in the middle
     Cell(win, 350, 450, 250, 350, True, True, True, True).draw()
     Cell(win, 340, 460, 240, 360, False, True, True, True).draw()
@@ -22,6 +23,13 @@ def main():
     Cell(win, 280, 520, 180, 420, True, True, False, False).draw()
     Cell(win, 270, 530, 170, 430, True, True, True, False).draw()
     Cell(win, 260, 540, 160, 440, False, True, True, True).draw()
+
+    # two connected cells
+    cell1 = Cell(win, 10, 100, 200, 300, True, False, True, True)
+    cell2 = Cell(win, 100, 200, 200, 300, True, True, True, False)
+    cell1.draw()
+    cell2.draw()
+    cell1.draw_move(cell2)
 
     win.wait_for_close()
 
