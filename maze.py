@@ -1,4 +1,3 @@
-import math
 import time
 import random
 
@@ -51,19 +50,15 @@ class Maze():
         maze_entrance.has_left_wall = False
         self._draw_cell(0, 0)
 
-        maze_exit = self._cells[self._num_rows - 1 ][self._num_cols - 1]
+        maze_exit = self._cells[self._num_rows - 1][self._num_cols - 1]
         maze_exit.has_bottom_wall = False
         self._draw_cell(self._num_rows - 1, self._num_cols - 1)
 
-        self._break_walls_r(0,0)
+        self._break_walls_r(0, 0)
 
     def _break_walls_r(self, row_curr, col_curr) -> None:
         current_cell: Cell = self._cells[row_curr][col_curr]
         current_cell.visited = True
-
-        reached_the_end = current_cell == self._cells[self._num_rows - 1 ][self._num_cols - 1]
-        if reached_the_end:
-            return
 
         while True:
             to_visit = []
@@ -75,17 +70,24 @@ class Maze():
             }
 
             for dir, vector in vector_by_direction.items():
-                r, c = vector
-                if r < 0 or c < 0:
+                x, y = vector
+
+                row_adjacent = row_curr + x
+                col_adjacent = col_curr + y
+
+                out_of_bounds = (
+                    row_adjacent < 0 or
+                    row_adjacent == self._num_rows or
+                    col_adjacent < 0 or
+                    col_adjacent == self._num_cols
+                )
+
+                if out_of_bounds:
                     continue
 
-                row_adjacent = row_curr + r
-                col_adjacent = col_curr + c
+                cell_adjacent = self._cells[row_adjacent][col_adjacent]
 
-                if row_adjacent == self._num_rows or col_adjacent == self._num_rows:
-                    continue
-
-                if self._cells[row_adjacent][col_adjacent]:
+                if not cell_adjacent.visited:
                     to_visit.append(dir)
 
             if len(to_visit) == 0:
@@ -118,8 +120,9 @@ class Maze():
                     return
 
             self._draw_cell(row_curr, col_curr)
+            self._win.redraw()
+            time.sleep(0.01)
             self._break_walls_r(row_to_visit, col_to_visit)
-            break
 
     def _draw_cell(self, row, col) -> None:
         if self._win is None:
@@ -138,4 +141,4 @@ class Maze():
             return
 
         self._win.redraw()
-        time.sleep(0.02)
+        time.sleep(0.015)
