@@ -3,29 +3,25 @@ from gui import Window, Line, Point
 
 class Cell():
 
-    def __init__(self,
-                 win: Window,
-                 x1: int,
-                 x2: int,
-                 y1: int,
-                 y2: int,
-                 has_top_wall = True,
-                 has_right_wall = True,
-                 has_bottom_wall = True,
-                 has_left_wall = True) -> None:
-        self._x1 = x1
-        self._x2 = x2
-        self._y1 = y1
-        self._y2 = y2
+    def __init__(self, win: Window) -> None:
         self._win = win
-        self.has_top_wall = has_top_wall
-        self.has_right_wall = has_right_wall
-        self.has_bottom_wall = has_bottom_wall
-        self.has_left_wall = has_left_wall
+        self._x1 = None
+        self._x2 = None
+        self._y1 = None
+        self._y2 = None
+        self.has_top_wall = True
+        self.has_right_wall = True
+        self.has_bottom_wall = True
+        self.has_left_wall = True
 
-    def draw(self) -> None:
+    def draw(self, x1, y1, x2, y2) -> None:
         if self._win is None:
             return
+
+        self._x1 = x1
+        self._y1 = y1
+        self._x2 = x2
+        self._y2 = y2
 
         top_left = Point(self._x1, self._y1)
         top_right = Point(self._x2, self._y1)
