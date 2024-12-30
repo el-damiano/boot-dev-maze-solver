@@ -1,9 +1,9 @@
-from gui import Window, Line, Point
+from gui import Line, Point
 
 
 class Cell():
 
-    def __init__(self, win: Window) -> None:
+    def __init__(self, win = None) -> None:
         self._win = win
         self._x1 = None
         self._x2 = None
