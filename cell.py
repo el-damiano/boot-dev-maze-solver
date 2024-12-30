@@ -14,6 +14,8 @@ class Cell():
         self.has_bottom_wall = True
         self.has_left_wall = True
 
+        self.visited = False
+
     def draw(self, x1, y1, x2, y2) -> None:
         if self._win is None:
             return
