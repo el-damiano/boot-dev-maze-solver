@@ -137,9 +137,74 @@ class Maze():
         self._cells[row][col].draw(cell_x1, cell_y1, cell_x2, cell_y2)
         self._animate()
 
-    def _animate(self):
+    def _animate(self) -> None:
         if self._win is None:
             return
 
         self._win.redraw()
         time.sleep(0.015)
+
+    def _solve_r(self, row_curr, col_curr) -> None:
+        self._animate()
+        current_cell: Cell = self._cells[row_curr][col_curr]
+        current_cell.visited = True
+
+        reached_end = current_cell == self._cells[self._num_rows - 1][self._num_cols - 1]
+        if reached_end:
+            return True
+
+        vector_by_direction = {
+            'up': [-1, 0],
+            'right': [0, 1],
+            'down': [1, 0],
+            'left': [0, -1],
+        }
+
+        for dir, vector in vector_by_direction.items():
+            x, y = vector
+
+            row_adjacent = row_curr + x
+            col_adjacent = col_curr + y
+
+            out_of_bounds = (
+                row_adjacent < 0 or
+                row_adjacent == self._num_rows or
+                col_adjacent < 0 or
+                col_adjacent == self._num_cols
+            )
+
+            if out_of_bounds:
+                continue
+
+            adjacent_cell = self._cells[row_adjacent][col_adjacent]
+
+            if adjacent_cell.visited:
+                continue
+
+            match dir:
+                case 'up':
+                    if current_cell.has_top_wall:
+                        continue
+                case 'right':
+                    if current_cell.has_right_wall:
+                        continue
+                case 'down':
+                    if current_cell.has_bottom_wall:
+                        continue
+                case 'left':
+                    if current_cell.has_left_wall:
+                        continue
+                case _:
+                    break
+
+            current_cell.draw_move(adjacent_cell)
+
+            result = self._solve_r(row_adjacent, col_adjacent)
+            if result:
+                return True
+            current_cell.draw_move(adjacent_cell, True)
+
+        return False
+
+    def solve(self) -> None:
+        return self._solve_r(0, 0)
